@@ -15,15 +15,6 @@
         public static function findUserById($userId){
             $resultArray = self::findQuery("SELECT * FROM users WHERE id = $userId LIMIT 1");
             return !empty($resultArray) ? array_shift($resultArray) : false;
-
-            // if(!empty($resultArray)){
-            //     $firstItem = array_shift($resultArray);
-            //     return $firstItem;
-            // } else{
-            //     return false;
-            // }
-
-            //return $foundUser;
     }
 
     public static function findQuery($sql){
@@ -36,6 +27,19 @@
         }
 
         return $object;
+    }
+
+    public static function verifyUser($username, $password){
+        global $database;
+        $username = $database ->escapeString($username);
+        $password = $database ->escapeString($password);
+
+        $sql = "SELECT * FROM users WHERE ";
+        $sql .= "username = '{$username}'";
+        $sql .= "AND password = '{$password}' LIMIT 1";
+
+        $resultArray = self::findQuery($sql);
+        return !empty($resultArray) ? array_shift($resultArray) : false;
     }
 
     public static function instantiation($record){

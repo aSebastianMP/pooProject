@@ -1,10 +1,4 @@
 <?php include("init.php")?>
-<?php
-
-    if(!$session->isSignedIn()){
-        redirect("login.php");
-    }
-?>
 
 <!DOCTYPE html>
 <html lang="en">
