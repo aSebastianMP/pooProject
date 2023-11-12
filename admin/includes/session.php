@@ -3,10 +3,30 @@
     class Session  {
         private $signedIn = false;
         public $userId; 
+        public $message;
+
        function __construct(){
         session_start();
         $this ->checkSession();
        } 
+
+       public function message($msg=""){
+        if(!empty($msg)){
+            $_SESSION['message'] = $msg;
+        } else {
+            return $this->message;
+        }
+       }
+
+       private function checkMessage(){
+        if(isset($_SESSION['message'])){
+            $this->message = $_SESSION['message'];
+            unset($_SESSION['message']);
+        } else {
+            $this->message = '';
+        }
+       }
+
        public function isSignedIn(){
         return $this->signedIn; 
        }
