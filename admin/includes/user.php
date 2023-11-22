@@ -64,6 +64,28 @@
         $objectProperties = get_object_vars($this);
         return array_key_exists($attribute, $objectProperties);
     }
+
+
+    public function create(){
+        global $database;
+        $sql = "INSERT INTO users (username, password, Name, Last_Name)";
+        $sql .= "VALUES ('";
+        $sql .= $database->escapeString($this->username) ."', '";
+        $sql .= $database->escapeString($this->password) ."', '";
+        $sql .= $database->escapeString($this->firstName) ."', '";
+        $sql .= $database->escapeString($this->lastName) ."')";
+
+        if($database->query($sql)){
+            $this->id = $database->insertId();
+            return true;
+
+        } else {
+            return false;
+        }
+      }    
 }
+
+
+    
 ?>
 
