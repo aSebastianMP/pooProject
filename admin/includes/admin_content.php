@@ -8,25 +8,20 @@
                 <small>Subheading</small>
             </h1>
             <?php
-                
-                // $resultSet = User::findAllUsers();
+                // $userTest = new User();
+                // $userTest->username = "STROG";
+                // $userTest->password = "123";
+                // $userTest->firstName = "Sebastian";
+                // $userTest->lastName = "Marquez";
 
-                //  while ($row = mysqli_fetch_array($resultSet)) {
-                //      echo $row['username']."<br>";
-                // }
+                // $userTest->create();
 
-                // $foundUser = User::findUserById(1);
-                // $user = User::instantiation($record);
-                // echo $user->username."<br>";
+                // $userTest = User::findUserById(2);
+                // $userTest->lastName = "Fulano";
+                // $userTest->update(); }
 
-                // $users = User::findAllUsers();
-                // foreach ($users as $user){
-                //     echo $user->username."<br>";
-                // }
-
-                $foundUser = User::findUserById(1);
-                echo $foundUser->username ."";
-
+                $userTest = User::findUserById(2);
+                $userTest->delete();
             ?>
             <ol class="breadcrumb">
                 <li>

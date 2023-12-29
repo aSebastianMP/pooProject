@@ -82,9 +82,34 @@
         } else {
             return false;
         }
-      }    
-}
+      }
 
+      public function update(){
+        global $database;
+        $sql = "UPDATE users SET ";
+        $sql .= "username= '" . $database->escapeString($this->username) . "', ";
+        $sql .= "password= '" . $database->escapeString($this->password) . "', ";
+        $sql .= "Name= '" . $database->escapeString($this->firstName) . "', "; //USING THE FUCNTION update CAUSES TO LOSE THIS PARAM FOR SOME REASON
+        $sql .= "Last_Name= '" . $database->escapeString($this->lastName) . "' ";
+        $sql .= " WHERE id= " . $database->escapeString($this->id);
+
+        $database->query($sql);
+
+        return (mysqli_affected_rows($database->connection) == 1) ? true : false;
+      }
+
+      public function delete(){
+        global $database;
+        $sql = "DELETE FROM users ";
+        $sql .= "WHERE id=" . $database->escapeString($this->id);
+        $sql .= " LIMIT 1" ;
+
+        $database->query($sql);
+
+        return (mysqli_affected_rows($database->connection) == 1) ? true : false;
+      }
+      
+}
 
     
 ?>

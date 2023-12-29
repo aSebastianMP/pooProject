@@ -35,9 +35,12 @@
         }
 
         public function insertId(){
-            return $this->connection->insert_id;
+            return mysqli_insert_id($this->connection);
         }
+
     }
+
+    
 
     
     $database = new Database();
