@@ -2,6 +2,9 @@
 
 
     class User{
+
+        protected static $dbTable = "users";
+        protected static $dbTableFields = array('username','password','firstName','lastName');
         public $id;
         public $username;
         public $password;
@@ -44,12 +47,6 @@
 
     public static function instantiation($record){
         $userObject = new self;
-        // $userObject->id        =  $foundUser["id"];
-        // $userObject->username  =  $foundUser["username"];
-        // $userObject->password  =  $foundUser["password"];
-        // $userObject->firstName =  $foundUser["Name"];
-        // $userObject->lastName  =  $foundUser["Last_Name"];
-
         foreach($record as $attribute => $value){
             if($userObject->hasAttribute($attribute)){
                 $userObject->$attribute = $value;
@@ -65,15 +62,38 @@
         return array_key_exists($attribute, $objectProperties);
     }
 
+    protected function properties(){
+        $properties = array();
+        foreach (self::$dbTableFields as $dbField){
+            if(property_exists($this, $dbField)){
+                $properties[$dbField] = $this->$dbField;
+            }
+        }
+        return $properties;
+    }
+
+    protected function cleanProperties(){
+        global $database;
+        $cleanProperties = array();
+
+        foreach ($this->properties() as $key => $value){
+            $cleanProperties[$key] = $database->escapeString($value);
+        }
+        return $cleanProperties; 
+    }
+
+
+    public function save(){
+        return isset($this->id) ? $this->update() : $this->create();
+    }
+
 
     public function create(){
-        global $database;
-        $sql = "INSERT INTO users (username, password, Name, Last_Name)";
-        $sql .= "VALUES ('";
-        $sql .= $database->escapeString($this->username) ."', '";
-        $sql .= $database->escapeString($this->password) ."', '";
-        $sql .= $database->escapeString($this->firstName) ."', '";
-        $sql .= $database->escapeString($this->lastName) ."')";
+        global $database; 
+        $properties = $this->cleanProperties();
+
+        $sql = "INSERT INTO " . self::$dbTable . "(" . implode(",", array_keys($properties)) . ")";
+        $sql .= "VALUES ('". implode("','", array_values($properties)) ."')";
 
         if($database->query($sql)){
             $this->id = $database->insertId();
@@ -86,11 +106,15 @@
 
       public function update(){
         global $database;
-        $sql = "UPDATE users SET ";
-        $sql .= "username= '" . $database->escapeString($this->username) . "', ";
-        $sql .= "password= '" . $database->escapeString($this->password) . "', ";
-        $sql .= "Name= '" . $database->escapeString($this->firstName) . "', "; //USING THE FUCNTION update CAUSES TO LOSE THIS PARAM FOR SOME REASON
-        $sql .= "Last_Name= '" . $database->escapeString($this->lastName) . "' ";
+        $properties = $this->cleanProperties();
+        $propertiesPairs = array();
+
+        foreach($properties as $key=>$value) {
+            $propertiesPairs[] = "{$key}='{$value}'";
+        }
+
+        $sql = "UPDATE ".self::$dbTable. " SET ";
+        $sql .= implode(", ", $propertiesPairs);
         $sql .= " WHERE id= " . $database->escapeString($this->id);
 
         $database->query($sql);
@@ -100,7 +124,7 @@
 
       public function delete(){
         global $database;
-        $sql = "DELETE FROM users ";
+        $sql = "DELETE FROM ".self::$dbTable. " ";
         $sql .= "WHERE id=" . $database->escapeString($this->id);
         $sql .= " LIMIT 1" ;
 
@@ -113,4 +137,3 @@
 
     
 ?>
-
