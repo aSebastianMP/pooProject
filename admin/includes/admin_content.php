@@ -8,12 +8,12 @@
                 <small>Subheading</small>
             </h1>
             <?php
-                   $userTest = new User();
-                   $userTest->username = "DavidW1";
-                   $userTest->password = "123";
-                   $userTest->firstName = "David";
-                  $userTest->lastName = "Wallace";
-                   $userTest->create();
+                //    $userTest = new User();
+                //    $userTest->username = "DavidW1";
+                //    $userTest->password = "123";
+                //    $userTest->firstName = "David";
+                //    $userTest->lastName = "Wallace";
+                //    $userTest->create();
 
                 //  $userTest = User::findUserById(10);
                 //  $userTest->firstName = "Not Jhon";

@@ -11,12 +11,12 @@
         public $firstName;
         public $lastName;
 
-        public static function findAllUsers(){
-            return self::findQuery("SELECT * FROM users");
+        public static function findAll(){
+            return self::findQuery("SELECT * FROM " . self::$dbTable . " ");
         }
 
-        public static function findUserById($userId){
-            $resultArray = self::findQuery("SELECT * FROM users WHERE id = $userId LIMIT 1");
+        public static function findById($userId){
+            $resultArray = self::findQuery("SELECT * FROM " . self::$dbTable . " WHERE id = $userId LIMIT 1");
             return !empty($resultArray) ? array_shift($resultArray) : false;
     }
 
@@ -37,7 +37,7 @@
         $username = $database ->escapeString($username);
         $password = $database ->escapeString($password);
 
-        $sql = "SELECT * FROM users WHERE ";
+        $sql = "SELECT * FROM " . self::$dbTable . " WHERE ";
         $sql .= "username = '{$username}'";
         $sql .= "AND password = '{$password}' LIMIT 1";
 
