@@ -28,9 +28,29 @@
                 // $userTest->username = "Temp name";
                 // $$userTest->save();
 
-                // $userTest = new User();
-                // $userTest->username = "Test save";
-                // $userTest->save();
+                //  $userTest = new User();
+                //  $userTest->username = "Test latest one";
+                //  $userTest->save();
+
+                //  $userTest = User::findAll();
+
+                //  foreach($userTest as $user){
+                //      echo $user->username;
+                //  }
+
+                // $photos = Photo::findAll();
+                // foreach($photos as $photo){
+                //     echo $photo->title;
+                // }
+
+                // $photos = new Photo();
+                // $photos->title = "Image title test";
+                // $photos->photoDescription = "This is a test";
+                // $photos->fileName = "imageTest.jpg";
+                // $photos->type = "image";
+                // $photos->size = "10";
+                
+                // $photos->create();
 
 
 
