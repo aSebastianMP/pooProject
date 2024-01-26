@@ -11,7 +11,7 @@ class Photo extends Db_Object {
         public $size;
         public $tmpPath;
         public $uploadDirectory = "images";
-        public $customErrors = array();
+        public $errors = array();
         public $uploadErrorsArray = array(
             UPLOAD_ERR_OK =>         "There is no error",
             UPLOAD_ERR_INI_SIZE =>   "The uploaded file exceeds the upload_max_filesize directive cap.",
@@ -22,6 +22,50 @@ class Photo extends Db_Object {
             UPLOAD_ERR_CANT_WRITE => "Failed to write file to disk.",
             UPLOAD_ERR_EXTENSION =>  "A PHP extension stopped the file upload."
         );
+
+        public function setFile($file){
+
+            if(empty($file) || !$file || !is_array($file)){
+                $this->errors[] = "There was no file uploaded here";
+                return false;
+            }elseif($file['error'] !=0){
+                $this->errors[] = $this->uploadErrorsArray[$file['error']];
+                return false;
+            } else {
+                $this->fileName = basename($file['name']);
+                $this->tmpPath = $file['tmp_name'];
+                $this->type = $file['type'];
+                $this->size = $file['size'];
+            }
+        }
+
+        public function save(){
+            if($this->photoId){
+                $this->update(); 
+            } else {
+                if(!empty($this->errors)){
+                    return false;
+                }
+                if (empty($this->fileName) || empty($this->tmpPath)){
+                    $this->errors[] = "The file was not available";
+                    return false;
+                }
+                $targetPath = SITE_ROOT . DS . 'admin' . DS . $this->uploadDirectory . DS . $this->fileName;
+
+                if(file_exists($targetPath)){
+                    $this->errors[] = "The file {$this->fileName} already exists";
+                }
+                if(move_uploaded_file($this->tmpPath, $targetPath)){
+                    if($this->create()){
+                        unset($this->tmpPath);
+                        return true;
+                    }
+                } else {
+                    $this->errors[] = "The folder probably doesn't have permissions";
+                    return false;
+                }
+            }
+        }
 
 
 }

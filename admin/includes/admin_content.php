@@ -52,6 +52,8 @@
                 
                 // $photos->create();
 
+                // echo INCLDUES_PATH;
+
 
 
             ?>
