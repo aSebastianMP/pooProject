@@ -6,8 +6,8 @@ class Db_Object{
         return static::findByQuery("SELECT * FROM " . static::$dbTable . " ");
     }
 
-    public static function findById($userId){
-        $resultArray = static::findByQuery("SELECT * FROM " . static::$dbTable . " WHERE id = $userId LIMIT 1");
+    public static function findById($id){
+        $resultArray = static::findByQuery("SELECT * FROM " . static::$dbTable . " WHERE id = $id LIMIT 1");
         return !empty($resultArray) ? array_shift($resultArray) : false;
 }
 

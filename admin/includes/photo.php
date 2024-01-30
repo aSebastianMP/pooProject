@@ -3,7 +3,7 @@
 class Photo extends Db_Object {
         protected static $dbTable = "photos";
         protected static $dbTableFields = array('photoId','title','photoDescription','fileName','type','size');
-        public $photoId;
+        public $id;
         public $title;
         public $photoDescription;
         public $fileName;
@@ -39,8 +39,12 @@ class Photo extends Db_Object {
             }
         }
 
+        public function picturePath(){
+            return $this->uploadDirectory.DS.$this->fileName;
+        }
+
         public function save(){
-            if($this->photoId){
+            if($this->id){
                 $this->update(); 
             } else {
                 if(!empty($this->errors)){

@@ -23,10 +23,10 @@
                 //  $userTest = User::findUserById(5);
                 //  $userTest->delete();
 
-                // $userTest = User::findUserById(4);
+                //  $userTest = User::findById(4);
 
-                // $userTest->username = "Temp name";
-                // $$userTest->save();
+                //  $userTest->username = "Temp name";
+                //  $$userTest->save();
 
                 //  $userTest = new User();
                 //  $userTest->username = "Test latest one";
@@ -53,6 +53,9 @@
                 // $photos->create();
 
                 // echo INCLDUES_PATH;
+
+                // $userTest = User::findById(4);
+                // echo $userTest->username;
 
 
 
