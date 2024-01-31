@@ -58,6 +58,10 @@
                 // echo $userTest->username;
 
 
+                $photos = Photo::findById(8);
+                echo $photos->fileName;
+
+
 
             ?>
             <ol class="breadcrumb">

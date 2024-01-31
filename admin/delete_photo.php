@@ -7,14 +7,15 @@
 ?>
 
 <?php
-    if(empty($_GET['photoId'])){
+    if(empty($_GET['id'])){
         redirect("photos.php");
     }
 
-    $photo = Photo::findById($_GET['$photoId']);
+    $photo = Photo::findById($_GET['id']);
 
     if($photo){
-        $photo->delete_photo();
+        $photo->deletePhoto();
+        redirect("photos.php");
     } else{
         redirect("photos.php");
     }
